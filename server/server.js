@@ -17,16 +17,15 @@ io.on('connection', (socket) => {
 
   socket.on('createMessage', (msg) => {
     console.log('Handle new message', msg);
+    io.emit('newMessage', {
+      from: msg.from,
+      text: msg.text,
+      createdAt: new Date().getTime()
+    });
   });
 
   socket.on('disconnect', (socket) => {
     console.log('User disconnected');
-  });
-
-  socket.emit('newMessage', {
-    from: "Admin Server",
-    text: "Willkommen im Chat!",
-    createdAt: Date.now()
   });
 
 });
