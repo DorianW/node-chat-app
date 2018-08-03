@@ -8,9 +8,18 @@ const port = process.env.PORT || 3000;
 
 var app = express();
 var server = http.createServer(app);
-//var io = socketIO(server);
+var io = socketIO(server);
 
 app.use(express.static(publicPath));
+
+io.on('connection', (socket) => {
+  console.log('New user connected');
+  socket.on('disconnect', (socket) => {
+    console.log('User disconnected');
+  });
+});
+
+
 
 server.listen(port, () => {
   console.log(`DaServer started with port: ${port}`);
