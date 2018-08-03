@@ -8,17 +8,8 @@ socket.on('disconnect', () => {
   console.log('Disconnected from server');
 });
 
-socket.on('newEmail', (email) => {
-  console.log('New Email!!!!!', email);
-});
-
 socket.on('newMessage', (msg) => {
   console.log('[' + msg.createdAt + '] ' + msg.from + ' says: ' + msg.text);
-});
-
-socket.emit('createEmail', {
-  to: "cheenee",
-  text: "liblib"
 });
 
 setTimeout(() => {
