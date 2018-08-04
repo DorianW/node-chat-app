@@ -28,10 +28,6 @@ socket.on('newLocationMessage', (msg) => {
   jQuery('#messages').append(li);
 });
 
-// socket.emit('createMessage', {from: "Pirat", text: "Hi!"}, (data) => {
-//   console.log(data);
-// });
-
 jQuery('#message-form').on('submit', function (e) {
   e.preventDefault();
 
@@ -39,7 +35,7 @@ jQuery('#message-form').on('submit', function (e) {
     from: "Pirat",
     text: jQuery('[name=message]').val()
   }, function () {
-
+    jQuery('[name=message]').val('');
   });
 });
 
@@ -48,11 +44,14 @@ var geoButton = jQuery('#send-location');
 geoButton.on('click', function (e) {
   e.preventDefault();
   if (!navigator.geolocation) {
+    console.log('No Geolocation API');
     return alert('No Geolocation API');
   }
 
-  navigator.geolocation.getCurrentPosition(function (pos) {
+  geoButton.attr('disabled', 'disabled').text('Sending...');
 
+  navigator.geolocation.getCurrentPosition(function (pos) {
+    console.log('Emitting createLocation');
     socket.emit('createLocation', {
       from: "Pirat",
       pos: {
@@ -60,7 +59,7 @@ geoButton.on('click', function (e) {
         longitude: pos.coords.longitude
       }
     }, function () {
-
+      geoButton.removeAttr('disabled').text('Send location');
     });
 
   }, function () {
