@@ -16,6 +16,18 @@ socket.on('newMessage', (msg) => {
   jQuery('#messages').append(li);
 });
 
+socket.on('newLocationMessage', (msg) => {
+  console.log(msg);
+
+  var chat = '[' + msg.createdAt + '] ' + msg.from + ' says: My current location!';
+  var li = jQuery('<li></li>');
+  var a = jQuery('<a>' + chat + '</a>');
+  a.attr('target', '_blank');
+  a.attr('href', msg.url);
+  jQuery(li).append(a);
+  jQuery('#messages').append(li);
+});
+
 // socket.emit('createMessage', {from: "Pirat", text: "Hi!"}, (data) => {
 //   console.log(data);
 // });
@@ -29,4 +41,30 @@ jQuery('#message-form').on('submit', function (e) {
   }, function () {
 
   });
+});
+
+var geoButton = jQuery('#send-location');
+
+geoButton.on('click', function (e) {
+  e.preventDefault();
+  if (!navigator.geolocation) {
+    return alert('No Geolocation API');
+  }
+
+  navigator.geolocation.getCurrentPosition(function (pos) {
+
+    socket.emit('createLocation', {
+      from: "Pirat",
+      pos: {
+        latitude: pos.coords.latitude,
+        longitude: pos.coords.longitude
+      }
+    }, function () {
+
+    });
+
+  }, function () {
+    alert('Unable to fetch location');
+  });
+
 });
