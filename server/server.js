@@ -22,15 +22,19 @@ io.on('connection', (socket) => {
   socket.broadcast.emit('newMessage', generateMessage('Admin', 'User joined'));
 
   socket.on('createMessage', (msg, callback) => {
+
     console.log('Handle new message', msg);
     socket.broadcast.emit('newMessage', generateMessage(msg.from, msg.text));
     callback();
+
   });
 
   socket.on('createLocation', (geo, callback) => {
+
     console.log('Handle new location', geo);
     socket.broadcast.emit('newLocationMessage', generateLocationMessage(geo.from, geo.pos.latitude, geo.pos.longitude));
-    callback('This is the data to callback');
+    callback();
+
   });
 
   socket.on('disconnect', (socket) => {

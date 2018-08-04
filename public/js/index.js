@@ -9,7 +9,7 @@ socket.on('disconnect', () => {
 });
 
 socket.on('newMessage', (msg) => {
-  var chat = '[' + msg.createdAt + '] ' + msg.from + ' says: ' + msg.text;
+  var chat = '[' + moment(msg.createdAt).format('HH:mm') + '] ' + msg.from + ' says: ' + msg.text;
   console.log('chat');
   var li = jQuery('<li></li>');
   li.text(chat);
@@ -19,7 +19,7 @@ socket.on('newMessage', (msg) => {
 socket.on('newLocationMessage', (msg) => {
   console.log(msg);
 
-  var chat = '[' + msg.createdAt + '] ' + msg.from + ' says: My current location!';
+  var chat = '[' + moment(msg.createdAt).format('HH:mm') + '] ' + msg.from + ' says: My current location!';
   var li = jQuery('<li></li>');
   var a = jQuery('<a>' + chat + '</a>');
   a.attr('target', '_blank');
