@@ -9,5 +9,24 @@ socket.on('disconnect', () => {
 });
 
 socket.on('newMessage', (msg) => {
-  console.log('[' + msg.createdAt + '] ' + msg.from + ' says: ' + msg.text);
+  var chat = '[' + msg.createdAt + '] ' + msg.from + ' says: ' + msg.text;
+  console.log('chat');
+  var li = jQuery('<li></li>');
+  li.text(chat);
+  jQuery('#messages').append(li);
+});
+
+// socket.emit('createMessage', {from: "Pirat", text: "Hi!"}, (data) => {
+//   console.log(data);
+// });
+
+jQuery('#message-form').on('submit', function (e) {
+  e.preventDefault();
+
+  socket.emit('createMessage', {
+    from: "Pirat",
+    text: jQuery('[name=message]').val()
+  }, function () {
+
+  });
 });

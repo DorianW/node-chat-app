@@ -21,7 +21,7 @@ io.on('connection', (socket) => {
 
   socket.broadcast.emit('newMessage', generateMessage('Admin', 'User joined'));
 
-  socket.on('createMessage', (msg) => {
+  socket.on('createMessage', (msg, callback) => {
     console.log('Handle new message', msg);
 
     // io.emit('newMessage', {
@@ -31,6 +31,7 @@ io.on('connection', (socket) => {
     // });
 
     socket.broadcast.emit('newMessage', generateMessage(msg.from, msg.text));
+    callback('This is the data to callback');
 
   });
 
